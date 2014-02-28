@@ -9,12 +9,27 @@ class User < ActiveRecord::Base
 
   has_secure_password
 
+  has_many :relationships, dependent: :destroy
+  has_many :teams, through: :relationships
+
   def User.new_remember_token
     SecureRandom.urlsafe_base64
   end
 
   def User.encrypt(token)
     Digest::SHA1.hexdigest(token.to_s)
+  end
+
+  def add_to_team(team)
+  	relationships.create!(team_id: team.id)
+  end
+
+  def remove_from_team(team)
+  	relationships.find_by(team_id: team.id).destroy
+  end
+
+  def in_team?(team)
+  	relationships.find_by(team_id: team.id)
   end
 
   private

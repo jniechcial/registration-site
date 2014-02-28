@@ -20,6 +20,8 @@ describe User do
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:authenticate) }
+  it { should respond_to(:relationships) }
+  it { should respond_to(:teams) }
 
 	it { should be_valid }
 
@@ -110,5 +112,23 @@ describe User do
   describe "remember token" do
     before { @user.save }
     its(:remember_token) { should_not be_blank }
+  end
+
+  describe "in a team" do
+    let(:team) { FactoryGirl.create(:team) }
+    before do
+      @user.save
+      @user.add_to_team(team)
+    end
+
+    it { should be_in_team(team) }
+    its(:teams)  { should include(team) }
+
+    describe "after unroll from a team" do
+      before { @user.remove_from_team(team) }
+
+      it { should_not be_in_team(team) }
+      its(:teams) { should_not include(team) }
+    end
   end
 end
