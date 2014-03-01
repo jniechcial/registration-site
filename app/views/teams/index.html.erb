@@ -1,0 +1,14 @@
+<div class="row">
+  <div class="span6 offset3">
+  	<h5 class="center">
+	  	<%= link_to "Create team", new_team_path %>
+	  </h5>
+	  <h3 class="center">Teams</h3>
+	  <% if @teams.any? %>
+	    <ul class="teams">
+	      <%= render @teams %>
+	    </ul>
+	    <%= will_paginate %>
+	  <% end %>
+	</div>
+</div>

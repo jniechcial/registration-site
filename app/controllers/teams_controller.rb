@@ -2,6 +2,10 @@ class TeamsController < ApplicationController
 	before_action :signed_in_user, only: [:new, :create, :edit, :update]
 	before_action :correct_user, only: [:edit, :update]
 
+	def index
+		@teams = Team.all.paginate(page: params[:page], :per_page => 10)
+	end
+
 	def show
 		@team = Team.find params[:id]
 	end

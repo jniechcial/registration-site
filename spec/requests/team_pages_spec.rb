@@ -11,9 +11,18 @@ describe "Team pages" do
 
 	subject { page }
 
+	describe "index page" do
+		before do
+			20.times { FactoryGirl.create(:team) } 
+			visit teams_path
+		end
+
+		it { should have_selector("div.pagination") }
+	end
+
 	describe "edit page" do
 		let(:team) { FactoryGirl.create(:team) }
-		let (:user) { FactoryGirl.create(:user) }
+		let(:user) { FactoryGirl.create(:user) }
 
 		describe "for non-signed-in users" do
 			before { get edit_team_path(team) }
