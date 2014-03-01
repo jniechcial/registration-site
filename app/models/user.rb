@@ -10,7 +10,10 @@ class User < ActiveRecord::Base
   has_secure_password
 
   has_many :relationships, dependent: :destroy
-  has_many :teams, through: :relationships
+  has_many :accepted_relationships, -> { where active: true }, class_name: 'Relationship', dependent: :destroy
+  has_many :pending_relationships, -> { where active: false }, class_name: 'Relationship', dependent: :destroy
+  has_many :teams, through: :accepted_relationships, class_name: 'Team', source: :team
+  has_many :requested_teams, through: :pending_relationships, class_name: 'Team', source: :team
 
   def User.new_remember_token
     SecureRandom.urlsafe_base64
@@ -20,8 +23,16 @@ class User < ActiveRecord::Base
     Digest::SHA1.hexdigest(token.to_s)
   end
 
+  def request_to_team(team)
+  	pending_relationships.create!(team_id: team.id)
+  end
+
   def add_to_team(team)
-  	relationships.create!(team_id: team.id)
+  	if pending_relationships.find_by(team_id: team.id)
+  		relationships.find_by(team_id: team.id).update_attribute(:active, true)
+  	else
+  		relationships.create!(team_id: team.id, active: true)
+  	end
   end
 
   def remove_from_team(team)
@@ -29,7 +40,11 @@ class User < ActiveRecord::Base
   end
 
   def in_team?(team)
-  	relationships.find_by(team_id: team.id)
+  	accepted_relationships.find_by(team_id: team.id)
+  end
+
+  def requested_to_team?(team)
+  	pending_relationships.find_by(team_id: team.id)
   end
 
   private

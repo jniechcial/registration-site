@@ -20,8 +20,10 @@ describe User do
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:authenticate) }
-  it { should respond_to(:relationships) }
+  it { should respond_to(:accepted_relationships) }
+  it { should respond_to(:pending_relationships) }
   it { should respond_to(:teams) }
+  it { should respond_to(:requested_teams) }
 
 	it { should be_valid }
 
@@ -128,6 +130,52 @@ describe User do
       before { @user.remove_from_team(team) }
 
       it { should_not be_in_team(team) }
+      its(:teams) { should_not include(team) }
+    end
+  end
+
+  describe "requested to a team" do
+    let(:team) { FactoryGirl.create(:team) }
+    before do
+      @user.save
+      @user.request_to_team(team)
+    end
+
+    it { should be_requested_to_team(team) }
+    it { should_not be_in_team(team) }
+    its(:requested_teams) { should include(team) }
+    its(:teams) { should_not include(team) }
+
+    describe "and enrolled" do
+      before do
+        team.accept_requested_user(@user)
+      end
+
+      it { should_not be_requested_to_team(team) }
+      it { should be_in_team(team) }
+      its(:requested_teams) { should_not include(team) }
+      its(:teams) { should include(team) }
+
+      describe "and then destroyed" do
+        before do
+          team.remove_user(@user)
+        end
+
+        it { should_not be_requested_to_team(team) }
+        it { should_not be_in_team(team) }
+        its(:requested_teams) { should_not include(team) }
+        its(:teams) { should_not include(team) }
+      end
+    end
+
+    describe "and rejected" do
+      before do
+        team.remove_user(@user)
+      end
+
+      it { should_not be_requested_to_team(team) }
+      it { should_not be_in_team(team) }
+      its(:requested_teams) { should_not include(team) }
       its(:teams) { should_not include(team) }
     end
   end

@@ -36,13 +36,18 @@ describe Team do
   	end
 
   	it { should be_includes_user(user) }
+  	it { should_not be_includes_request(user) }
   	its(:users) { should include(user) }
+  	its(:requested_users) { should_not include(user) }
+
 
   	describe "after removing user" do
   		before { team.remove_user(user) }
 
   		it { should_not be_includes_user(user) }
+  		it { should_not be_includes_request(user) }
   		its(:users) { should_not include(user) }
+  		its(:requested_users) { should_not include(user) }
   	end
   end
 end
