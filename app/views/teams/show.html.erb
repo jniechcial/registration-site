@@ -1,0 +1,20 @@
+<% provide(:title, @team.name) %>
+<div class="row">
+  <aside class="span4">
+    <section>
+      <h1>
+        <%= @team.name %>
+      </h1>
+    	<% if @team.users.include?(current_user) %>
+    		<h4>
+    			<%= link_to "Edit", edit_team_path(@team) %>
+    		</h4>
+    	<% end %>  
+    </section>
+    <section>
+    	<ul class="users-list">
+    		<%= render @team.users %>
+    	</ul>
+    </section>
+  </aside>
+</div>
