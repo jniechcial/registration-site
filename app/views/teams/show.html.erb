@@ -18,7 +18,7 @@
     </section>
   </aside>
   <div class="span8">
-    <% if @team.requested_users.any? %>
+    <% if @team.requested_users.any? and @team.users.include?(current_user) %>
       <h4 class="center">Open requests:</h4>
       <ul class="team-requests">
         <%= render partial: "shared/requested_users", collection: @team.requested_users, as: :user %>

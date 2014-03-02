@@ -187,6 +187,7 @@ describe "Team pages" do
 
 	    	it { should_not have_content("Create robot") }
 	    	it { should_not have_link("Edit", href: edit_team_path(team)) }
+	    	it { should_not have_selector("h4", text: "Open requests") }
 	    end
 
 	    describe "for enrolled users" do
@@ -196,6 +197,35 @@ describe "Team pages" do
 	    	end
 
 	    	it { should have_link("Edit", href: edit_team_path(team)) }
+
+	    	describe "should show all open requests" do
+		    	let(:other_user) { FactoryGirl.create(:user) }
+		    	before do
+		    		other_user.request_to_team(team)
+		    		visit team_path(team)
+		    	end
+
+		    	it { should have_selector("h4", text: "Open requests") }
+		    	it { should have_selector("li", text: other_user.name) }
+		    	it { should have_button("Accept") }
+		    	it { should have_button("Decline") }
+
+		    	describe "and after clicking accept request" do
+		    		it "should increment its teams by one" do
+							expect do
+			          click_button 'Accept'
+			        end.to change(other_user.teams, :count).by(1)
+						end
+		    	end
+
+		    	describe "and after clicking decline request" do
+		    		it "should decrement its requested teams by one" do
+							expect do
+			          click_button 'Decline'
+			        end.to change(other_user.requested_teams, :count).by(-1)
+						end
+		    	end
+		    end
 	    end
 
 	    describe "should include all team users" do
@@ -210,34 +240,7 @@ describe "Team pages" do
 	    	it { should have_selector("li", text: other_user.name) }
 	    end
 
-	    describe "should show all open requests" do
-	    	let(:other_user) { FactoryGirl.create(:user) }
-	    	before do
-	    		other_user.request_to_team(team)
-	    		visit team_path(team)
-	    	end
-
-	    	it { should have_selector("h4", text: "Open requests") }
-	    	it { should have_selector("li", text: other_user.name) }
-	    	it { should have_button("Accept") }
-	    	it { should have_button("Decline") }
-
-	    	describe "and after clicking accept request" do
-	    		it "should increment its teams by one" do
-						expect do
-		          click_button 'Accept'
-		        end.to change(other_user.teams, :count).by(1)
-					end
-	    	end
-
-	    	describe "and after clicking decline request" do
-	    		it "should decrement its requested teams by one" do
-						expect do
-		          click_button 'Decline'
-		        end.to change(other_user.requested_teams, :count).by(-1)
-					end
-	    	end
-	    end
+	    
 	  end
 
 	  describe "for non-signed-in users" do
