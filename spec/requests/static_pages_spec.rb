@@ -14,8 +14,41 @@ describe "Static pages" do
   	let(:heading)    { 'Registration for Cyberbot Robotics Festival' }
     let(:page_title) { '' }
 
-    it_should_behave_like "all static pages"
-    it { should_not have_selector("title", text: full_title("Home") )}
+    describe "for signed-in user" do
+      let(:user) { FactoryGirl.create(:user) }
+      let(:team) { FactoryGirl.create(:team) }
+
+      describe "in a team" do
+        before do
+          sign_in user
+          user.add_to_team(team)
+          visit root_path
+        end
+
+        it { should have_content("Your robots:") }
+        it { should have_content("Your teams:") }
+        it { should have_link(team.name) }
+        it { should have_link("Create team") }
+      end
+
+      describe "not in a team" do
+        before do
+          sign_in user
+          user.request_to_team(team)
+          visit root_path
+        end
+
+        it { should have_content("Your robots:") }
+        it { should have_content("Your teams:") }
+        it { should have_content("None - 1 requests") }
+        it { should have_link("Create team") }
+      end
+    end
+
+    describe "for non-signed-in user" do
+      it_should_behave_like "all static pages"
+      it { should_not have_selector("title", text: full_title("Home") )}
+    end
   end
 
   describe "Contact page" do

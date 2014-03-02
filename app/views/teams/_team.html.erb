@@ -1,5 +1,13 @@
 <li>
-	<%= team.name %>
+	<% if signed_in? %>
+		<% if current_user.in_team?(team) %>
+			<%= link_to team.name, team_path(team) %>
+		<% else %>
+			<%= team.name %>
+		<% end %>
+	<% else %>
+		<%= team.name %>
+	<% end %>
 	<% if signed_in? %>
 		<% if not (current_user.requested_to_team?(team) or current_user.in_team?(team) ) %>
 			<%= render 'shared/request_form', team: team %>
