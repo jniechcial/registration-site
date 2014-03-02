@@ -1,0 +1,4 @@
+<%= form_for(current_user.relationships.build(team_id: team.id), :html => { :class => 'form-request-join', :id => "new_relationship_#{team.id}" } ) do |f| %>
+  <div><%= f.hidden_field :team_id %></div>
+  <%= f.submit "Join", class: "btn btn-mini btn-primary", id: "new_relationship_button_#{team.id}" %>
+<% end %>

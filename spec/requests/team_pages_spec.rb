@@ -20,6 +20,41 @@ describe "Team pages" do
 		it { should have_selector("div.pagination") }
 	end
 
+	describe "index page for signed-in user" do
+		let(:user) { FactoryGirl.create(:user) }
+		let!(:team) { FactoryGirl.create(:team) }
+
+		before do
+			sign_in user
+			visit teams_path
+		end
+
+		it { should have_content(team.name) }
+		it { should have_button("Join") }
+
+		describe "after requesting to join" do
+			it "should increment its requests by one" do
+				expect do
+          click_button 'Join'
+        end.to change(user.requested_teams, :count).by(1)
+			end
+
+			it "should increment team requests by one" do
+				expect do
+					click_button 'Join'
+				end.to change(team.requested_users, :count).by(1)
+			end
+
+			describe "should not show join anymore" do
+				before do
+					click_button 'Join'
+				end
+
+				it { should_not have_link('Join') }
+			end
+		end
+	end
+
 	describe "edit page" do
 		let(:team) { FactoryGirl.create(:team) }
 		let(:user) { FactoryGirl.create(:user) }

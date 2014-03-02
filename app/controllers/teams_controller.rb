@@ -40,6 +40,10 @@ class TeamsController < ApplicationController
     end
 	end
 
+	def request_team
+
+	end
+
 	private
 
 		def team_params
