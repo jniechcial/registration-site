@@ -55,6 +55,14 @@ describe "Team pages" do
 		end
 	end
 
+	describe "index page for non-signed-in user" do
+		before do
+			visit teams_path
+		end
+
+		it { should_not have_content("Create team")}
+	end
+
 	describe "edit page" do
 		let(:team) { FactoryGirl.create(:team) }
 		let(:user) { FactoryGirl.create(:user) }
@@ -162,42 +170,79 @@ describe "Team pages" do
 		end
 	end
 
-  describe "team page" do
+  describe "show page" do
   	let(:team) { FactoryGirl.create(:team) }
-    before { visit team_path(team) }
-    it { should have_selector("title", text: team.name) }
-    it { should have_selector("h1", text: team.name) }
+  	let(:user) { FactoryGirl.create(:user) }
 
-    describe "for non enrolled users" do
-    	let(:user) { FactoryGirl.create(:user) }
-    	before { sign_in user }
+  	describe "for signed-in users" do
+	    before do
+	    	sign_in user
+	    	visit team_path(team)
+	    end
 
-    	it { should_not have_content("Create robot") }
-    	it { should_not have_link("Edit", href: edit_team_path(team)) }
-    end
+	    it { should have_selector("title", text: team.name) }
+	    it { should have_selector("h1", text: team.name) }
 
-    describe "for enrolled users" do
-    	let(:user) { FactoryGirl.create(:user) }
-    	before do
-    		sign_in user
-    		team.add_user(user)
-    		visit team_path(team)
-    	end
+	    describe "for non enrolled users" do
 
-    	it { should have_link("Edit", href: edit_team_path(team)) }
-    end
+	    	it { should_not have_content("Create robot") }
+	    	it { should_not have_link("Edit", href: edit_team_path(team)) }
+	    end
 
-    describe "should include all team users" do
-    	let(:user) { FactoryGirl.create(:user) }
-    	let(:other_user) { FactoryGirl.create(:user) }
-    	before do
-    		team.add_user(user)
-    		team.add_user(other_user)
-    		visit team_path(team)
-    	end
+	    describe "for enrolled users" do
+	    	before do
+	    		team.add_user(user)
+	    		visit team_path(team)
+	    	end
 
-    	it { should have_selector("li", text: user.name) }
-    	it { should have_selector("li", text: other_user.name) }
-    end
+	    	it { should have_link("Edit", href: edit_team_path(team)) }
+	    end
+
+	    describe "should include all team users" do
+	    	let(:other_user) { FactoryGirl.create(:user) }
+	    	before do
+	    		team.add_user(user)
+	    		team.add_user(other_user)
+	    		visit team_path(team)
+	    	end
+
+	    	it { should have_selector("li", text: user.name) }
+	    	it { should have_selector("li", text: other_user.name) }
+	    end
+
+	    describe "should show all open requests" do
+	    	let(:other_user) { FactoryGirl.create(:user) }
+	    	before do
+	    		other_user.request_to_team(team)
+	    		visit team_path(team)
+	    	end
+
+	    	it { should have_selector("h4", text: "Open requests") }
+	    	it { should have_selector("li", text: other_user.name) }
+	    	it { should have_button("Accept") }
+	    	it { should have_button("Decline") }
+
+	    	describe "and after clicking accept request" do
+	    		it "should increment its teams by one" do
+						expect do
+		          click_button 'Accept'
+		        end.to change(other_user.teams, :count).by(1)
+					end
+	    	end
+
+	    	describe "and after clicking decline request" do
+	    		it "should decrement its requested teams by one" do
+						expect do
+		          click_button 'Decline'
+		        end.to change(other_user.requested_teams, :count).by(-1)
+					end
+	    	end
+	    end
+	  end
+
+	  describe "for non-signed-in users" do
+	  	before { get new_team_path }
+			specify { expect(response).to redirect_to(signin_path) }
+	  end
   end
 end

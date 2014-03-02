@@ -17,4 +17,12 @@
     	</ul>
     </section>
   </aside>
+  <div class="span8">
+    <% if @team.requested_users.any? %>
+      <h4 class="center">Open requests:</h4>
+      <ul class="team-requests">
+        <%= render partial: "shared/requested_users", collection: @team.requested_users, as: :user %>
+      </ul>
+    <% end %>
+  </div>
 </div>

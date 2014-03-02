@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-	before_action :signed_in_user, only: [:new, :create, :edit, :update]
+	before_action :signed_in_user, only: [:new, :create, :edit, :update, :show]
 	before_action :correct_user, only: [:edit, :update]
 
 	def index
@@ -38,10 +38,6 @@ class TeamsController < ApplicationController
     else
       render 'edit'
     end
-	end
-
-	def request_team
-
 	end
 
 	private

@@ -1,0 +1,3 @@
+<%= form_for(user.relationships.find_by(team_id: team.id), :html => { method: :delete, :class => 'form-decline-request', :id => "decline_request_#{user.id}" } ) do |f| %>
+  <%= f.submit "Decline", class: "btn btn-mini btn-danger", id: "decline_request_button_#{team.id}" %>
+<% end %>
