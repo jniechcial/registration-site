@@ -6,12 +6,13 @@
         <%= @team.name %>
       </h1>
     	<% if @team.users.include?(current_user) %>
-    		<h4>
-    			<%= link_to "Edit", edit_team_path(@team) %>
-    		</h4>
+    		<h7>
+    			<%= link_to "Edit team", edit_team_path(@team) %>
+    		</h7>
     	<% end %>  
     </section>
     <section>
+      <h4 class="center">Team users</h4>
     	<ul class="users-list">
     		<%= render @team.users %>
     	</ul>

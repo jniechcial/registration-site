@@ -1,7 +1,7 @@
 <li>
 	<%= team.name %>
 	<% if signed_in? %>
-		<% if not current_user.requested_to_team?(team) %>
+		<% if not (current_user.requested_to_team?(team) or current_user.in_team?(team) ) %>
 			<%= render 'shared/request_form', team: team %>
 		<% end %>
 	<% end %>

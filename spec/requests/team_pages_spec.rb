@@ -53,6 +53,15 @@ describe "Team pages" do
 				it { should_not have_link('Join') }
 			end
 		end
+
+		describe "after joining the team" do
+			before do
+				team.add_user(user)
+				visit teams_path
+			end
+
+			it { should_not have_link('Join') }
+		end
 	end
 
 	describe "index page for non-signed-in user" do
@@ -196,7 +205,7 @@ describe "Team pages" do
 	    		visit team_path(team)
 	    	end
 
-	    	it { should have_link("Edit", href: edit_team_path(team)) }
+	    	it { should have_link("Edit team", href: edit_team_path(team)) }
 
 	    	describe "should show all open requests" do
 		    	let(:other_user) { FactoryGirl.create(:user) }

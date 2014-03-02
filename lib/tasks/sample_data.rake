@@ -33,7 +33,7 @@ def make_relationships
   index = 0
   users.in_groups_of(5) do |group|
     group.each do |user|
-      user.add_to_team(teams[index])
+      user.request_to_team(teams[index])
     end
     index = index + 1
   end
