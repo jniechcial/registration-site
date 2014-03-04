@@ -54,7 +54,7 @@ class TeamsController < ApplicationController
 	  end
 
 	  def correct_user
-	  	@users = Team.find(params[:id]).users
+	  	@users = Team.find_by_id(params[:id]).users
 	  	redirect_to(root_url) unless @users.include?(current_user)
 	  end
 end

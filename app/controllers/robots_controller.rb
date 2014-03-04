@@ -1,6 +1,8 @@
 class RobotsController < ApplicationController
-	before_filter :signed_in_user
-	before_filter :correct_user, only: [:create]
+	before_filter :signed_in_user, only: [:new]
+	before_filter :correct_user_for_edit_and_show, only: [:show, :edit]
+	before_filter :correct_user_for_update_and_create, only: [:udate, :create]
+
 	def new
 		@robot = Robot.new
 	end
@@ -19,16 +21,43 @@ class RobotsController < ApplicationController
 		end
 	end
 
+	def edit 
+		@robot = Robot.find params[:id]
+	end
+
+	def update
+		@robot = Robot.find(params[:id])
+    if @robot.update_attributes(robot_params)
+      flash[:success] = "Robot updated"
+      redirect_to @robot
+    else
+      render 'edit'
+    end
+	end
+
 	private
 
 		def robot_params
 			params.require(:robot).permit(:name, :team_id, :competition_id)
 		end
 
-		def correct_user
-			@team = Team.find_by_id params[:robot][:team_id]
-			if @team
+		def correct_user_for_edit_and_show
+			if signed_in?
+				@team = Robot.find_by_id(params[:id]).team
 				redirect_to root_path unless @team.users.include?(current_user)
+			else
+				redirect_to signin_path
+			end
+		end
+
+		def correct_user_for_update_and_create
+			if signed_in?
+				@team = Team.find_by_id(params[:robot][:team_id])
+				if @team
+					redirect_to root_path unless @team.users.include?(current_user)
+				end
+			else
+				redirect_to root_path
 			end
 		end
 end
