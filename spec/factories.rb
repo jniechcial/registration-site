@@ -10,4 +10,14 @@ FactoryGirl.define do
   	sequence(:name)  { |n| "Team #{n}" }
   	description "Lorem ipsum"
   end
+
+  factory :competition do
+    sequence(:name)  { |n| "Competition #{n}" }
+  end
+
+  factory :robot do
+    sequence(:name) { |n| "Robot #{n}" }
+    team
+    competition
+  end
 end

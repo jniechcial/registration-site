@@ -4,6 +4,8 @@ namespace :db do
     make_users
     make_teams
     make_relationships
+    make_competitions
+    make_robots
   end
 end
 
@@ -27,14 +29,37 @@ def make_teams
   end
 end
 
+def make_competitions
+  8.times do |n|
+    name = Faker::Name.name
+    Competition.create!(name: name)
+  end
+end
+
 def make_relationships
   users = User.all
   teams = Team.all
   index = 0
-  users.in_groups_of(5) do |group|
+  users.first(50).in_groups_of(5) do |group|
+    group.each do |user|
+      user.add_to_team(teams[index])
+    end
+    index = index + 1
+  end
+  index = 0
+  users.last(50).in_groups_of(5) do |group|
     group.each do |user|
       user.request_to_team(teams[index])
     end
     index = index + 1
+  end
+end
+
+def make_robots
+  teams = Team.all
+  competitions = Competition.all
+  40.times do |i|
+    name = Faker::Name.name
+    Robot.create!(name: name, team: teams[i % 20], competition: competitions[i % 6])
   end
 end
