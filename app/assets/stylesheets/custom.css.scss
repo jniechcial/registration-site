@@ -83,6 +83,26 @@ p {
 
 /* home */
 
+.counter-container {
+  display: table;
+  width: 100%;
+  margin-top: 30px;
+}
+
+.users-count {
+  display: table-cell;
+  width: 33%;
+}
+
+.teams-count {
+  display: table-cell;
+  width: 33%;
+}
+
+.robots-count {
+  display: table-cell;
+  width: 33%;
+}
 
 /* sidebar */
 
