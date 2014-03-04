@@ -3,6 +3,7 @@ RegistrationPage::Application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :teams
   resources :relationships, only: [:create, :destroy, :update]
+  resources :robots
 
   match '/signup',  to: 'users#new',            via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'

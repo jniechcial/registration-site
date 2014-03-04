@@ -12,8 +12,8 @@ describe "Team pages" do
 	subject { page }
 
 	describe "index page" do
+		let!(:teams) { 40.times { FactoryGirl.create(:team) } }
 		before do
-			20.times { FactoryGirl.create(:team) } 
 			visit teams_path
 		end
 
