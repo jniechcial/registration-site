@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   has_many :pending_relationships, -> { where active: false }, class_name: 'Relationship', dependent: :destroy
   has_many :teams, through: :accepted_relationships, class_name: 'Team', source: :team
   has_many :requested_teams, through: :pending_relationships, class_name: 'Team', source: :team
+  has_many :robots, through: :teams
 
   def User.new_remember_token
     SecureRandom.urlsafe_base64

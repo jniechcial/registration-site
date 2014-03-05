@@ -24,6 +24,7 @@ describe User do
   it { should respond_to(:pending_relationships) }
   it { should respond_to(:teams) }
   it { should respond_to(:requested_teams) }
+  it { should respond_to(:robots) }
 
 	it { should be_valid }
 
@@ -178,5 +179,21 @@ describe User do
       its(:requested_teams) { should_not include(team) }
       its(:teams) { should_not include(team) }
     end
+  end
+
+  describe "in a team with a robot" do
+    before do
+      @user.save
+      @team = FactoryGirl.create(:team)
+      @other_team = FactoryGirl.create(:team)
+      @competition = FactoryGirl.create(:competition)
+      @robot =  FactoryGirl.create(:robot, team: @team, competition: @competition)
+      @other_robot = FactoryGirl.create(:robot, team: @other_team, competition: @competition)
+
+      @user.add_to_team(@team)
+    end
+
+    its(:robots) { should include(@robot) }
+    its(:robots) { should_not include(@other_robot) }
   end
 end
