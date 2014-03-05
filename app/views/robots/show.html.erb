@@ -1,3 +1,11 @@
 <% provide(:title, @robot.name) %>
 
-<h4><%= @robot.name %></h4>
+<h4 class="center"><%= @robot.name %></h4>
+<h5 class="center"><%= link_to "Edit robot", edit_robot_path(@robot) %>
+
+<div class="row">
+	<div class="span8 offset2 robot-container">
+		<p>Competition: <%= @robot.competition.name %></p>
+		<p>Team: <%= link_to @robot.team.name, team_path(@robot.team) %></p>
+	</div>
+</div>
