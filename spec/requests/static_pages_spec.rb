@@ -13,17 +13,21 @@ describe "Static pages" do
   	before do
       5.times { FactoryGirl.create(:team) }
       5.times { FactoryGirl.create(:user) }
+      5.times { FactoryGirl.create(:competition) }
+      5.times { FactoryGirl.create(:robot, team: Team.first, competition: Competition.first) }
       visit root_path
     end
   	let(:heading)    { 'Registration for Cyberbot Robotics Festival' }
     let(:page_title) { '' }
     let(:teams_count) { Team.all.count }
     let(:users_count) { User.all.count }
+    let(:robots_count) { Robot.all.count }
 
     it { should have_content("Registered") }
 
     it {should have_selector("h4.users-number", text: "#{users_count}") }
     it {should have_selector("h4.teams-number", text: "#{teams_count}") }
+    it {should have_selector("h4.robots-number", text: "#{robots_count}") }
 
     describe "for signed-in user" do
       let(:user) { FactoryGirl.create(:user) }
