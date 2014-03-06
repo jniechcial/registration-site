@@ -207,6 +207,18 @@ describe "Team pages" do
 
 	    	it { should have_link("Edit team", href: edit_team_path(team)) }
 
+	    	describe "should show all robots" do
+	    		let(:competition) { FactoryGirl.create(:competition) }
+	    		let!(:robot) { FactoryGirl.create(:robot, team: team, competition: competition) }
+	    		before do
+	    			visit team_path(team)
+	    		end
+
+	    		it { should have_content("Create robot") }
+	    		it { should have_link(robot.name, href: robot_path(robot)) }
+	    		it { should have_content("Robots") }
+	    	end
+
 	    	describe "should show all open requests" do
 		    	let(:other_user) { FactoryGirl.create(:user) }
 		    	before do

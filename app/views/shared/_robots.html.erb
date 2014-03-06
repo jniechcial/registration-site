@@ -1,0 +1,11 @@
+<li>
+	<% if signed_in? %>
+		<% if @team.users.include?(current_user) %>
+			<%= link_to robot.name, robot_path(robot) %>
+		<% else %>
+			<%= robot.name %>
+		<% end %>
+	<% else %>
+		<%= robot.name %>
+	<% end %>
+</li>
