@@ -26,7 +26,7 @@
 			  	<%= link_to "Create robot", new_robot_path %>
 			  </h5>
 				<% if current_user.robots.any? %>
-					<ul class="robots-container">
+					<ul class="robots">
 			      <%= render current_user.robots %>
 			    </ul>
 				<% else %>
