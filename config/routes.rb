@@ -10,6 +10,11 @@ RegistrationPage::Application.routes.draw do
   match '/signin',  to: 'sessions#new',         via: 'get'
   match '/signout', to: 'sessions#destroy',     via: 'delete'
 
+  match '/admins',        to: 'admins#home',    via: 'get'
+  match '/admins/users',  to: 'admins#users',   via: 'get'
+  match '/admins/teams',  to: 'admins#teams',   via: 'get'
+  match '/admins/robots', to: 'admins#robots',  via: 'get'
+
   root 'static_pages#home'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
