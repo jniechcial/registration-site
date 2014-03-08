@@ -2,6 +2,7 @@ class RobotsController < ApplicationController
 	before_filter :signed_in_user, only: [:new]
 	before_filter :correct_user_for_edit_and_show, only: [:show, :edit]
 	before_filter :correct_user_for_update_and_create, only: [:udate, :create]
+	before_action :admin_user, only: [:destroy]
 
 	def new
 		@robot = Robot.new
@@ -33,6 +34,12 @@ class RobotsController < ApplicationController
     else
       render 'edit'
     end
+	end
+
+	def destroy
+		@robot = Robot.find(params[:id]).destroy
+		flash[:success] = "Robot destroyed"
+      redirect_to admins_robots_path
 	end
 
 	private

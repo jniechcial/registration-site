@@ -56,5 +56,50 @@ describe "Admin pages" do
           end.to change(User, :count).by(-1)
         end
   	end
+
+    describe "teams page" do
+      let!(:team) { FactoryGirl.create(:team) }
+      let!(:other_team) { FactoryGirl.create(:team) }
+      before do
+        team.add_user(user)
+        other_team.add_user(admin)
+        visit admins_teams_path
+      end
+
+      it { should have_content("All teams") }
+      it { should have_selector("title", text: full_title("All teams")) }
+      it { should have_content(user.name) }
+      it { should have_content(admin.name) }
+      it { should have_content(team.name) }
+      it { should have_content(other_team.name) }
+      it { should have_link("X", href: team_path(team)) }
+      it "should be able to delete another team" do
+          expect do
+            click_link('X')
+          end.to change(Team, :count).by(-1)
+        end
+    end
+
+    describe "robots page" do
+      let!(:team) { FactoryGirl.create(:team) }
+      let!(:competition) { FactoryGirl.create(:competition) }
+      let!(:robot) { FactoryGirl.create(:robot, team: team, competition: competition) }
+      let!(:other_robot) { FactoryGirl.create(:robot, team: team, competition: competition) }
+      before do
+        visit admins_robots_path
+      end
+
+      it { should have_content("All robots") }
+      it { should have_selector("title", text: full_title("All robots")) }
+      it { should have_content(robot.name) }
+      it { should have_content(team.name) }
+      it { should have_content(competition.name) }
+      it { should have_link("X", href: robot_path(robot)) }
+      it "should be able to delete another robot" do
+          expect do
+            click_link('X')
+          end.to change(Robot, :count).by(-1)
+        end
+    end
   end
 end

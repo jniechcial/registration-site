@@ -1,6 +1,7 @@
 class TeamsController < ApplicationController
 	before_action :signed_in_user, only: [:new, :create, :edit, :update, :show]
 	before_action :correct_user, only: [:edit, :update]
+	before_action :admin_user, only: [:destroy]
 
 	def index
 		@teams = Team.all.paginate(page: params[:page], :per_page => 10)
@@ -38,6 +39,12 @@ class TeamsController < ApplicationController
     else
       render 'edit'
     end
+	end
+
+	def destroy
+		@team = Team.find(params[:id]).destroy
+		flash[:success] = "Team destroyed"
+    redirect_to admins_teams_path
 	end
 
 	private

@@ -1,0 +1,25 @@
+<tr>
+	<td><%= team_counter %></td>
+	<td><%= team.name %></td>
+	<td>
+		<% if team.users.any? %>
+			<ul class="admin-team-users">
+				<%= render partial: "admins/team_users", collection: team.users, as: :user %>
+			</ul>
+		<% else %>
+			None
+		<% end %>
+	</td>
+	<td>
+		<% if team.robots.any? %>
+			<ul class="admin-team-robots">
+				<%= render partial: "admins/team_robots", collection: team.robots, as: :robot %>
+			</ul>
+		<% else %>
+			None
+		<% end %>
+	</td>
+	<td class="center">
+		<span class="label label-important"><%= link_to "X", team, method: :delete, data: { confirm: "You sure?" } %></span>
+	</td>
+</tr>

@@ -4,7 +4,7 @@ class Team < ActiveRecord::Base
 	has_many :pending_reverse_relationships, -> { where active: false  }, foreign_key: "team_id", class_name:  "Relationship", dependent: :destroy
   has_many :users, through: :accepted_reverse_relationships, source: :user, class_name: "User"
   has_many :requested_users, through: :pending_reverse_relationships, class_name: "User", source: :user
-  has_many :robots
+  has_many :robots, dependent: :destroy
 
   validates :name, presence: true, length: { maximum: 50 }
 

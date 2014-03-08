@@ -10,10 +10,10 @@ class AdminsController < ApplicationController
 	end
 
 	def teams
-		@teams = Teams.all
+		@teams = Team.all
 	end
 
 	def robots
-		@robots = Robots.all
+		@robots = Robot.all
 	end
 end

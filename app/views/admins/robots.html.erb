@@ -1,0 +1,14 @@
+<% provide(:title, "All robots") %>
+<div class="row">
+  <div class="span12">
+	  <h3 class="center">All robots</h3>
+    <table class="sortable robots-table table-striped">
+    	<thead>
+    		<tr><th>No.</th><th>Name</th><th>Team</th><th>Competition</th><th>Action</th></tr>
+    	</thead>
+    	<tbody>
+    		<%= render partial: "admins/robot", collection: @robots, as: :robot %>
+    	</tbody>
+    </table>
+	</div>
+</div>

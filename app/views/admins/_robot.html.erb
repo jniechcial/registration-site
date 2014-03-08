@@ -1,0 +1,9 @@
+<tr>
+	<td><%= robot_counter %></td>
+	<td><%= robot.name %></td>
+	<td><%= robot.team.name %></td>
+	<td><%= robot.competition.name %></td>
+	<td class="center">
+		<span class="label label-important"><%= link_to "X", robot, method: :delete, data: { confirm: "You sure?" } %></span>
+	</td>
+</tr>
