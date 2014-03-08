@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
 	before_action :signed_in_user, only: [:edit, :update]
 	before_action :correct_user,   only: [:edit, :update]
+  before_action :admin_user,     only: [:destroy]
 
 	def show
     @user = User.find(params[:id])
@@ -33,6 +34,12 @@ class UsersController < ApplicationController
     else
       render 'edit'
     end
+  end
+
+  def destroy
+    @user = User.find(params[:id]).destroy
+    flash[:success] = "User deleted."
+    redirect_to admins_users_path
   end
 
   private

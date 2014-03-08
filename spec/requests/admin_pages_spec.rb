@@ -50,6 +50,11 @@ describe "Admin pages" do
   		it { should have_content(admin.name) }
   		it { should have_link("X", href: user_path(user)) }
   		it { should_not have_link("X", href: user_path(admin)) }
+  		it "should be able to delete another user" do
+          expect do
+            click_link('X')
+          end.to change(User, :count).by(-1)
+        end
   	end
   end
 end
