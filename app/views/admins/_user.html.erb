@@ -1,0 +1,23 @@
+<tr>
+	<td><%= user_counter %></td>
+	<td><%= user.name %></td>
+	<td><%= user.email %></td>
+	<td>City</td>
+	<td>
+		<% if user.teams.any? %>
+			<ul class="admin-user-teams">
+				<%= render partial: "admins/user_teams", collection: user.teams, as: :team %>
+			</ul>
+		<% else %>
+			None
+		<% end %>
+	</td>
+	<td>T-shirt</td>
+	<td class="center">
+		<% if current_user == user %>
+			-
+		<% else %>
+			<span class="label label-important"><%= link_to "X", user, method: :delete, data: { confirm: "You sure?" } %></span>
+		<% end %>
+	</td>
+</tr>

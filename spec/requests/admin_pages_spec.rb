@@ -10,8 +10,8 @@ describe "Admin pages" do
 
 	subject { page }
 
-	let(:user) { FactoryGirl.create(:user) }
-	let(:admin) { FactoryGirl.create(:admin) }
+	let!(:user) { FactoryGirl.create(:user) }
+	let!(:admin) { FactoryGirl.create(:admin) }
 
   describe "for non-signed-in user" do
     before { get admins_path }
@@ -29,7 +29,9 @@ describe "Admin pages" do
   end
 
   describe "for signed-in admin users" do
-  	before { sign_in admin }
+  	before do
+  		sign_in admin
+  	end
 
   	describe "home page" do
   		before { visit admins_path }
@@ -37,6 +39,17 @@ describe "Admin pages" do
   		it { should have_link("All users", href: admins_users_path) }
   		it { should have_link("All robots", href: admins_robots_path) }
   		it { should have_link("All teams", href: admins_teams_path) }
+  	end
+
+  	describe "users page" do
+  		before { visit admins_users_path }
+
+  		it { should have_content("All users") }
+  		it { should have_selector("title", text: full_title("All users")) }
+  		it { should have_content(user.name) }
+  		it { should have_content(admin.name) }
+  		it { should have_link("X", href: user_path(user)) }
+  		it { should_not have_link("X", href: user_path(admin)) }
   	end
   end
 end

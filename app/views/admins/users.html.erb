@@ -1,0 +1,14 @@
+<% provide(:title, "All users") %>
+<div class="row">
+  <div class="span12">
+	  <h3 class="center">All users</h3>
+    <table class="sortable users-table table-striped">
+    	<thead>
+    		<tr><th>No.</th><th>Name</th><th>E-mail</th><th>City</th><th>Teams</th><th>T-shirt</th><th>Action</th></tr>
+    	</thead>
+    	<tbody>
+    		<%= render partial: "admins/user", collection: @users, as: :user %>
+    	</tbody>
+    </table>
+	</div>
+</div>
