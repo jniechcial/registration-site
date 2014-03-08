@@ -44,6 +44,8 @@ describe "User pages" do
         fill_in "Email",        with: "user@example.com"
         fill_in "Password",     with: "foobar"
         fill_in "Confirmation", with: "foobar"
+        fill_in "City", with: "Foobar"
+        select("M", from: 'user_tshirt')
       end
 
       it "should create a user" do
@@ -82,11 +84,14 @@ describe "User pages" do
     describe "with valid information" do
       let(:new_name)  { "New Name" }
       let(:new_email) { "new@example.com" }
+      let(:new_city) { "New city" }
       before do
         fill_in "Name",             with: new_name
         fill_in "Email",            with: new_email
         fill_in "Password",         with: user.password
         fill_in "Confirm Password", with: user.password
+        fill_in "City",             with: new_city
+        select("XL", from: 'user_tshirt')
         click_button "Save changes"
       end
 

@@ -2,7 +2,7 @@
 	<td><%= user_counter %></td>
 	<td><%= user.name %></td>
 	<td><%= user.email %></td>
-	<td>City</td>
+	<td><%= user.city %></td>
 	<td>
 		<% if user.teams.any? %>
 			<ul class="admin-user-teams">
@@ -12,7 +12,7 @@
 			None
 		<% end %>
 	</td>
-	<td>T-shirt</td>
+	<td><%= user.tshirt %></td>
 	<td class="center">
 		<% if current_user == user %>
 			-

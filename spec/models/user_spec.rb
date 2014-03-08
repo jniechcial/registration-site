@@ -9,7 +9,7 @@ describe User do
 		DatabaseCleaner.clean
 	end
 
-	before { @user = User.new(name: "Example", email: "user@example.com", password: "foobar", password_confirmation: "foobar") }
+	before { @user = User.new(name: "Example", email: "user@example.com", password: "foobar", password_confirmation: "foobar", city: "Example City", tshirt: "XL") }
 
 	subject { @user }
 
@@ -20,6 +20,8 @@ describe User do
   it { should respond_to(:password_confirmation) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:admin) }
+  it { should respond_to(:tshirt) }
+  it { should respond_to(:city) }
   it { should respond_to(:authenticate) }
   it { should respond_to(:accepted_relationships) }
   it { should respond_to(:pending_relationships) }
@@ -37,6 +39,18 @@ describe User do
     end
 
     it { should be_admin }
+  end
+
+  describe "when city is not present" do
+    before { @user.city = " " }
+
+    it { should_not be_valid }
+  end
+
+  describe "when tshirt is not present" do
+    before { @user.tshirt = " " }
+
+    it { should_not be_valid }
   end
 
 	describe "when name is not present" do
