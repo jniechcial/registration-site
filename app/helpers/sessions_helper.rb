@@ -44,4 +44,12 @@ module SessionsHelper
       redirect_to signin_url, notice: "Please sign in."
     end
   end
+
+  def is_admin?
+    current_user.admin?
+  end
+
+  def admin_user
+    redirect_to root_path unless is_admin?
+  end
 end

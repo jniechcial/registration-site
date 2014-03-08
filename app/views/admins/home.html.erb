@@ -1,0 +1,19 @@
+<div class="center hero-unit">
+	<div class="counter-container">
+		<div class="users-count">
+			<i class="icon-user" height="20px"></i>
+			<h4 class="users-number"><%= User.all.count %></h4>
+			<h4><%= link_to "All users", admins_users_path %></h4>
+		</div>
+		<div class="teams-count">
+			<i class="icon-th-large"></i>
+			<h4 class="teams-number"><%= Team.all.count %></h4>
+			<h4><%= link_to "All teams", admins_teams_path %></h4>
+		</div>
+		<div class="robots-count">
+			<i class="icon-cog"></i>
+			<h4 class="robots-number"><%= Robot.all.count %></h4>
+			<h4><%= link_to "All robots", admins_robots_path %></h4>
+		</div>
+	</div>
+</div>
