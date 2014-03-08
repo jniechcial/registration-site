@@ -374,3 +374,27 @@ footer {
   margin-top: 45px;
   @include box_sizing;
 }
+
+/* print */
+
+@media print
+{
+  .navbar { 
+    display:none;
+  }
+  .footer {
+    display:none;
+  }
+  .container {
+    width: 100%;
+  }
+  .debug_dump {
+    display:none;
+  }
+  .label-print-hide {
+    display:none;
+    a {
+      display:none;
+    }
+  }
+}
