@@ -14,7 +14,7 @@ def make_users
   100.times do |n|
     name  = Faker::Name.name
     email = "example-#{n+1}@railstutorial.org"
-    city = Faker::Address.city
+    city = Faker::Name.name
     tshirt = 'M'
     password  = "password"
     User.create!(name:     name,
