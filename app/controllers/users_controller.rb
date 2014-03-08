@@ -12,7 +12,7 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new(user_params)
+    @user = User.new(user_params_for_create)
     if @user.save
     	sign_in @user
       flash[:success] = "Welcome to the Sample App!"
@@ -28,7 +28,7 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    if @user.update_attributes(user_params)
+    if @user.update_attributes(user_params_for_update)
       flash[:success] = "Profile updated"
       redirect_to @user
     else
@@ -44,7 +44,11 @@ class UsersController < ApplicationController
 
   private
 
-    def user_params
+    def user_params_for_create
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :city, :tshirt, :agreement, :terms)
+    end
+
+    def user_params_for_update
       params.require(:user).permit(:name, :email, :password, :password_confirmation, :city, :tshirt)
     end
 

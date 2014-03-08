@@ -8,6 +8,8 @@ class User < ActiveRecord::Base
   validates :password, length: { minimum: 6 }
   validates :city, presence: true
   validates :tshirt, presence: true, length: { maximum: 3 }
+  validates :agreement, :acceptance => { :accept => true }, :on => :create
+  validates :terms, :acceptance => { :accept => true }, :on => :create
 
   has_secure_password
 

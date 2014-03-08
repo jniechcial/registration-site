@@ -9,7 +9,7 @@ describe User do
 		DatabaseCleaner.clean
 	end
 
-	before { @user = User.new(name: "Example", email: "user@example.com", password: "foobar", password_confirmation: "foobar", city: "Example City", tshirt: "XL") }
+	before { @user = User.new(name: "Example", email: "user@example.com", password: "foobar", terms: true, agreement: true, password_confirmation: "foobar", city: "Example City", tshirt: "XL") }
 
 	subject { @user }
 
@@ -22,6 +22,8 @@ describe User do
   it { should respond_to(:admin) }
   it { should respond_to(:tshirt) }
   it { should respond_to(:city) }
+  it { should respond_to(:terms) }
+  it { should respond_to(:agreement) }
   it { should respond_to(:authenticate) }
   it { should respond_to(:accepted_relationships) }
   it { should respond_to(:pending_relationships) }
@@ -39,6 +41,18 @@ describe User do
     end
 
     it { should be_admin }
+  end
+
+  describe "when terms are not accepted" do
+    before { @user.terms = false }
+
+    it { should_not be_valid }
+  end
+
+  describe "when agreement is not accepted" do
+    before { @user.agreement = false }
+
+    it { should_not be_valid }
   end
 
   describe "when city is not present" do

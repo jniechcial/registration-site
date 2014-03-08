@@ -24,7 +24,18 @@
       <%= f.label :password_confirmation, "Confirmation" %>
       <%= f.password_field :password_confirmation %>
 
-      <%= f.submit "Create my account", class: "btn btn-large btn-primary" %>
+      <label class="checkbox">
+        <%= f.check_box :agreement %>
+        I accept regulations for competitions that I will register for.
+      </label>
+
+      <label class="checkbox">
+        <%= f.check_box :terms %>
+        I hereby authorize you to process my personal data included in my application for the needs of the registering process in accordance with the Personal Data Protection Act dated 29.08.1997 (uniform text: Journal of Laws of the Republic of Poland 2002 No 101, item 926 with further amendments)
+      </label>
+      <div class="center new-user-button">
+        <%= f.submit "Create my account", class: "btn btn-large btn-primary" %>
+      </div>
     <% end %>
   </div>
 </div>

@@ -46,6 +46,8 @@ describe "User pages" do
         fill_in "Confirmation", with: "foobar"
         fill_in "City", with: "Foobar"
         select("M", from: 'user_tshirt')
+        check "user_terms"
+        check "user_agreement"
       end
 
       it "should create a user" do
