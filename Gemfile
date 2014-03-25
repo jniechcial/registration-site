@@ -43,10 +43,9 @@ end
 # Use debugger
 # gem 'debugger', grou'guard-rspec', '0.5.5'p: [:development, :test]
 
-gem 'sqlite3'
-
 group :development, :test do
 	gem 'rspec-rails', '2.11.0'
+	gem 'sqlite3'
 end
 
 group :test do
