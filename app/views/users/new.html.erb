@@ -16,7 +16,7 @@
       <%= f.text_field :city %>
 
       <%= f.label :tshirt %>
-      <%= f.select(:tshirt, options_for_select([['S', 'S'], ['M', 'M'], ['L', 'L'], ['XL', 'XL']])) %>
+      <%= f.select(:tshirt, options_for_select([['S', 'S'], ['M', 'M'], ['L', 'L'], ['XL', 'XL']], selected: f.object.tshirt)) %>
 
       <%= f.label :password %>
       <%= f.password_field :password %>
