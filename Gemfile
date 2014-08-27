@@ -60,6 +60,8 @@ gem 'faker', '1.1.2'
 gem 'will_paginate', '3.0.4'
 gem 'bootstrap-will_paginate', '0.0.9'
 
+gem 'devise'
+
 gem "database_cleaner", "~> 1.2.0"
 
 gem 'annotate', '2.5.0', group: :development
