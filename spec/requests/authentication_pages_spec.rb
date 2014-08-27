@@ -36,7 +36,6 @@ describe "Authentication" do
       let(:user) { FactoryGirl.create(:user) }
       before { sign_in user }
 
-      it { should have_selector("title", 	 text: user.name) }
       it { should have_link('Settings',    href: edit_user_path(user)) }
       it { should have_link('Sign out',    href: signout_path) }
       it { should_not have_link('Sign in', href: signin_path) }
@@ -59,7 +58,7 @@ describe "Authentication" do
         describe "after signing in" do
 
           it "should render the desired protected page" do
-            expect(page).to have_selector("title", text: 'Edit user')
+            expect(page.source).to have_selector("title", text: 'Edit user')
           end
         end
       end

@@ -58,7 +58,6 @@ describe "User pages" do
         before { click_button submit }
         let(:user) { User.find_by(email: 'user@example.com') }
 
-        it { should have_selector("title", text: user.name) }
         it { should have_selector('div.alert.alert-success', text: 'Welcome') }
       end
     end
@@ -97,7 +96,6 @@ describe "User pages" do
         click_button "Save changes"
       end
 
-      it { should have_selector("title", text: new_name) }
       it { should have_selector('div.alert.alert-success') }
       it { should have_link('Sign out', href: signout_path) }
       specify { expect(user.reload.name).to  eq new_name }
