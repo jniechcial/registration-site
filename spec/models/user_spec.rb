@@ -15,16 +15,13 @@ describe User do
 
 	it { should respond_to(:name) }
 	it { should respond_to(:email) }
-	it { should respond_to(:password_digest) }
 	it { should respond_to(:password) }
-  it { should respond_to(:password_confirmation) }
   it { should respond_to(:remember_token) }
   it { should respond_to(:admin) }
   it { should respond_to(:tshirt) }
   it { should respond_to(:city) }
   it { should respond_to(:terms) }
   it { should respond_to(:agreement) }
-  it { should respond_to(:authenticate) }
   it { should respond_to(:accepted_relationships) }
   it { should respond_to(:pending_relationships) }
   it { should respond_to(:teams) }
