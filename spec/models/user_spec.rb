@@ -107,13 +107,8 @@ describe User do
 	end
 
 	describe "with a password that's too short" do
-    before { @user.password = @user.password_confirmation = "a" * 5 }
+    before { @user.password = @user.password_confirmation = "a" * 7 }
     it { should be_invalid }
-  end
-
-  describe "remember token" do
-    before { @user.save }
-    its(:remember_token) { should_not be_blank }
   end
 
   describe "in a team" do
