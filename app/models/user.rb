@@ -14,8 +14,6 @@ class User < ActiveRecord::Base
   validates :agreement, :acceptance => { :accept => true }, :on => :create
   validates :terms, :acceptance => { :accept => true }, :on => :create
 
-  has_secure_password
-
   has_many :relationships, dependent: :destroy
   has_many :accepted_relationships, -> { where active: true }, class_name: 'Relationship', dependent: :destroy
   has_many :pending_relationships, -> { where active: false }, class_name: 'Relationship', dependent: :destroy
