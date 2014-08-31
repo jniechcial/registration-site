@@ -1,5 +1,5 @@
 class TeamsController < ApplicationController
-	before_action :signed_in_user, only: [:new, :create, :edit, :update, :show]
+	before_action :authenticate_user!, only: [:new, :create, :edit, :update, :show]
 	before_action :correct_user, only: [:edit, :update]
 	before_action :admin_user, only: [:destroy]
 
@@ -52,13 +52,6 @@ class TeamsController < ApplicationController
 		def team_params
 			params.require(:team).permit(:name, :description)
 		end
-
-		def signed_in_user
-	    unless signed_in?
-	      store_location
-	      redirect_to signin_url, notice: "Please sign in."
-	    end
-	  end
 
 	  def correct_user
 	  	@users = Team.find_by_id(params[:id]).users
