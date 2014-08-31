@@ -6,10 +6,7 @@ RegistrationPage::Application.routes.draw do
   resources :relationships, only: [:create, :destroy, :update]
   resources :robots
 
-  match '/signup',  to: 'users#new',            via: 'get'
   match '/contact', to: 'static_pages#contact', via: 'get'
-  match '/signin',  to: 'sessions#new',         via: 'get'
-  match '/signout', to: 'sessions#destroy',     via: 'delete'
 
   match '/admins',        to: 'admins#home',    via: 'get'
   match '/admins/users',  to: 'admins#users',   via: 'get'
