@@ -7,4 +7,8 @@ module ApplicationHelper
       "#{base_title} | #{page_title}"
     end
   end
+
+  def is_admin?
+    current_user.admin?
+  end
 end
