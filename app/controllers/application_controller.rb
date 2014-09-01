@@ -15,4 +15,8 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) << :agreement
     devise_parameter_sanitizer.for(:sign_up) << :terms
   end
+
+  def admin_user
+    redirect_to root_path unless is_admin?
+  end
 end
