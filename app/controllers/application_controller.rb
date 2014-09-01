@@ -16,6 +16,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) << :terms
   end
 
+  def is_admin?
+    current_user.admin?
+  end
+  
   def admin_user
     redirect_to root_path unless is_admin?
   end
