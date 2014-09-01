@@ -21,9 +21,9 @@ describe "User pages" do
 
   describe "signup page" do
 
-    before { visit new_user_path }
+    before { visit new_user_registration_path }
 
-  	let(:submit) { "Create my account" }
+  	let(:submit) { "Sign up" }
 
     describe "with invalid information" do
       it "should not create a user" do
@@ -42,8 +42,8 @@ describe "User pages" do
       before do
         fill_in "Name",         with: "Example User"
         fill_in "Email",        with: "user@example.com"
-        fill_in "Password",     with: "foobar"
-        fill_in "Confirmation", with: "foobar"
+        fill_in "Password",     with: "foobarfoo"
+        fill_in "Password confirmation", with: "foobarfoo"
         fill_in "City", with: "Foobar"
         select("M", from: 'user_tshirt')
         check "user_terms"
@@ -58,7 +58,7 @@ describe "User pages" do
         before { click_button submit }
         let(:user) { User.find_by(email: 'user@example.com') }
 
-        it { should have_selector('div.alert.alert-success', text: 'Welcome') }
+        it { should have_selector('div.alert.alert-notice', text: 'Welcome') }
       end
     end
   end
@@ -67,7 +67,7 @@ describe "User pages" do
     let(:user) { FactoryGirl.create(:user) }
     before do
       sign_in user
-      visit edit_user_path(user)
+      visit edit_user_registration_path(user)
     end
 
     describe "page" do
@@ -77,7 +77,7 @@ describe "User pages" do
     end
 
     describe "with invalid information" do
-      before { click_button "Save changes" }
+      before { click_button "Update" }
 
       it { should have_content('error') }
     end
@@ -90,14 +90,15 @@ describe "User pages" do
         fill_in "Name",             with: new_name
         fill_in "Email",            with: new_email
         fill_in "Password",         with: user.password
-        fill_in "Confirm Password", with: user.password
+        fill_in "Password confirmation",         with: user.password
+        fill_in "Current password",         with: user.password
         fill_in "City",             with: new_city
         select("XL", from: 'user_tshirt')
-        click_button "Save changes"
+        click_button "Update"
       end
 
-      it { should have_selector('div.alert.alert-success') }
-      it { should have_link('Sign out', href: signout_path) }
+      it { should have_selector('div.alert.alert-notice') }
+      it { should have_link('Sign out', href: destroy_user_session_path) }
       specify { expect(user.reload.name).to  eq new_name }
       specify { expect(user.reload.email).to eq new_email }
     end

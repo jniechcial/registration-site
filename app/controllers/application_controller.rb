@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.for(:sign_up) << :tshirt
     devise_parameter_sanitizer.for(:sign_up) << :agreement
     devise_parameter_sanitizer.for(:sign_up) << :terms
+
+    devise_parameter_sanitizer.for(:account_update) << :name
+    devise_parameter_sanitizer.for(:account_update) << :city
+    devise_parameter_sanitizer.for(:account_update) << :tshirt 
   end
 
   def is_admin?
