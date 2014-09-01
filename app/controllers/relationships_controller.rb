@@ -1,5 +1,5 @@
 class RelationshipsController < ApplicationController
-  before_action :signed_in_user
+  before_action :authenticate_user!
   before_action :correct_team_member, only: [:destroy, :update]
 
   def create
