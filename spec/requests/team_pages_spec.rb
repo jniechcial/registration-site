@@ -78,7 +78,7 @@ describe "Team pages" do
 
 		describe "for non-signed-in users" do
 			before { get edit_team_path(team) }
-			specify { expect(response).to redirect_to(signin_path) }
+			specify { expect(response).to redirect_to(new_user_session_path) }
 		end
 
 		describe "for signed in users not from a team" do
@@ -87,7 +87,7 @@ describe "Team pages" do
 				get edit_team_path(team)
 			end
 
-			specify { expect(response).to redirect_to(signin_path) }
+			specify { expect(response).to redirect_to(new_user_session_path) }
 		end
 
 		describe "for signed in users from a team" do
@@ -131,7 +131,7 @@ describe "Team pages" do
 		
 		describe "for non-signed-in users" do
 			before { get new_team_path }
-			specify { expect(response).to redirect_to(signin_path) }
+			specify { expect(response).to redirect_to(new_user_session_path) }
 		end
 
 		describe "for signed in users" do
@@ -266,7 +266,7 @@ describe "Team pages" do
 
 	  describe "for non-signed-in users" do
 	  	before { get new_team_path }
-			specify { expect(response).to redirect_to(signin_path) }
+			specify { expect(response).to redirect_to(new_user_session_path) }
 	  end
   end
 end
