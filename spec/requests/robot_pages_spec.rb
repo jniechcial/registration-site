@@ -98,7 +98,7 @@ describe "Robot pages" do
 			specify do
 				pending
 				expect(response).to redirect_to(root_path)
-			}
+			end
 		end
 	end
 
